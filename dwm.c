@@ -208,6 +208,7 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
+static void showhelp(void);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
@@ -1649,6 +1650,26 @@ seturgent(Client *c, int urg)
 	wmh->flags = urg ? (wmh->flags | XUrgencyHint) : (wmh->flags & ~XUrgencyHint);
 	XSetWMHints(dpy, c->win, wmh);
 	XFree(wmh);
+}
+
+void showhelp()
+{
+        char tmp,buff[sizeof(xstr(KEYMAP))];
+        sprintf(buff,xstr(KEYMAP));
+        char *lptr=strstr(buff,"{ MODKEY"), *rptr=NULL;
+        FILE *fptr;
+        fptr = fopen("/tmp/dwm_help", "w");
+        while(lptr)
+        {
+                rptr=strstr(lptr,"},");
+                tmp=*(rptr+1);
+                *(rptr+1)=0;
+                fprintf(fptr,"%s\n",lptr++);
+                *(rptr+1)=tmp;
+                lptr=strstr(lptr,"{ MODKEY");
+        }
+        fclose(fptr);
+        system("st -e bash -c \"column -t /tmp/dwm_help | less\" &");
 }
 
 void
