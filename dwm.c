@@ -212,7 +212,7 @@ static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
 static Client *nexttiled(Client *c);
-static void passmenu(void);
+static void passcol(void);
 static void pop(Client *);
 static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
@@ -1366,9 +1366,11 @@ nexttiled(Client *c)
 }
 
 void
-passmenu(void)
+passcol(void)
 {
-	system("guake -t && guake -e 'passmenu && guake -t'"");
+	if (fork() == 0) {
+		system("guake -t && guake -e 'passcol && guake -t'");
+	}
 }
 
 void
