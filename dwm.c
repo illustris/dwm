@@ -212,7 +212,7 @@ static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
 static Client *nexttiled(Client *c);
-static void passcol(void);
+static void passcol(const Arg *arg);
 static void pop(Client *);
 static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
@@ -235,7 +235,7 @@ static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
-static void showhelp(void);
+static void showhelp(const Arg *arg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 static void spawn(const Arg *arg);
@@ -1366,7 +1366,7 @@ nexttiled(Client *c)
 }
 
 void
-passcol(void)
+passcol(const Arg *arg)
 {
 	if (fork() == 0) {
 		system("guake -t && guake -e 'passcol && guake -t'");
@@ -1848,7 +1848,7 @@ seturgent(Client *c, int urg)
 	XFree(wmh);
 }
 
-void showhelp()
+void showhelp(const Arg *arg)
 {
         char tmp,buff[sizeof(xstr(KEYMAP))];
         sprintf(buff,xstr(KEYMAP));
